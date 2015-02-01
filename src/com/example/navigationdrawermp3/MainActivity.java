@@ -27,82 +27,84 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
-	
+public class MainActivity extends FragmentActivity implements
+		ActionBar.TabListener {
+
 	ActionBar actionBar;
 	MenuItem refreshMenuItem;
 	ViewPager viewPager;
 	private TabsFragmentPagerAdapter tabsAdapter;
 	private String[] days = new String[] { "Facebook", "Whatsapp", "Twitter" };
-	
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-    private ActionBarDrawerToggle mDrawerToggle;
- 
-    private CharSequence mDrawerTitle;
- 
-    private CharSequence mTitle;
- 
-    private String[] navMenuTitles;
-    private TypedArray navMenuIcons;
- 
-    private ArrayList<NavDrawerItem> navDrawerItems;
-    private NavDrawerListAdapter adapter;
- 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
- 
-        mTitle = mDrawerTitle = getTitle();
- 
-        navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
- 
-        navMenuIcons = getResources()
-                .obtainTypedArray(R.array.nav_drawer_icons);
- 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
- 
-        navDrawerItems = new ArrayList<NavDrawerItem>();
-        
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1), true, "22"));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
-        
-        mDrawerList.setOnItemClickListener(new DrawerClickListener());
-        
-        adapter = new NavDrawerListAdapter(getApplicationContext(),
-                navDrawerItems);
-        mDrawerList.setAdapter(adapter);
- 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
- 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                R.drawable.ic_drawer, 
-                R.string.app_name, 
-                R.string.app_name 
-        ){
-            public void onDrawerClosed(View view) {
-                getActionBar().setTitle(mTitle);
-                invalidateOptionsMenu();
-            }
- 
-            public void onDrawerOpened(View drawerView) {
-                getActionBar().setTitle(mDrawerTitle);
-                invalidateOptionsMenu();
-            }
-        };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
- 
-        if (savedInstanceState == null) {
-            displayView(0);
-        }
-        
-        actionBar = getActionBar();
-		viewPager = (ViewPager) findViewById(R.id.viewPager);
+
+	private DrawerLayout mDrawerLayout;
+	private ListView mDrawerList;
+	private ActionBarDrawerToggle mDrawerToggle;
+
+	private CharSequence mDrawerTitle;
+
+	private CharSequence mTitle;
+
+	private String[] navMenuTitles;
+	private TypedArray navMenuIcons;
+
+	private ArrayList<NavDrawerItem> navDrawerItems;
+	private NavDrawerListAdapter adapter;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+
+		mTitle = mDrawerTitle = getTitle();
+
+		navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
+
+		navMenuIcons = getResources()
+				.obtainTypedArray(R.array.nav_drawer_icons);
+
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
+
+		navDrawerItems = new ArrayList<NavDrawerItem>();
+
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons
+				.getResourceId(0, -1)));
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons
+				.getResourceId(1, -1)));
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons
+				.getResourceId(2, -1), true, "22"));
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons
+				.getResourceId(3, -1)));
+
+		mDrawerList.setOnItemClickListener(new DrawerClickListener());
+
+		adapter = new NavDrawerListAdapter(getApplicationContext(),
+				navDrawerItems);
+		mDrawerList.setAdapter(adapter);
+
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setHomeButtonEnabled(true);
+
+		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+				R.drawable.ic_drawer, R.string.app_name, R.string.app_name) {
+			public void onDrawerClosed(View view) {
+				getActionBar().setTitle(mTitle);
+				invalidateOptionsMenu();
+			}
+
+			public void onDrawerOpened(View drawerView) {
+				getActionBar().setTitle(mDrawerTitle);
+				invalidateOptionsMenu();
+			}
+		};
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+		if (savedInstanceState == null) {
+			displayView(0);
+		}
+
+		actionBar = getActionBar();
+		// viewPager = (ViewPager) findViewById(R.id.viewPager);
 		tabsAdapter = new TabsFragmentPagerAdapter(getSupportFragmentManager());
 		viewPager.setAdapter(tabsAdapter);
 		actionBar = getActionBar();
@@ -131,100 +133,98 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 			}
 		});
-    }
-    
-    private class DrawerClickListener implements ListView.OnItemClickListener{
-    	@Override
-    	public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-    	{
-    		displayView(position);
-    	}
-    }
-    
-    private void displayView(int position){
-    	Fragment fragment = null;
-    	switch(position)
-    	{
-    		case 0:
-    			fragment = new HomeFrag();
-    			break;
-    		case 1:
-    			fragment = new PeopleFrag();
-    			break;
-    		case 2:
-    			fragment = new CommunityFrag();
-    			break;
-    		case 3:
-    			fragment = new PagesFrag();
-    			break;
-    	}
-    	
-    	if (fragment != null)
-    	{
-    		FragmentManager fragManager = getFragmentManager();
-    		fragManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
-    		
-    		mDrawerList.setItemChecked(position, true);
-    		mDrawerList.setSelection(position);
-    		setTitle(navMenuTitles[position]);
-    		mDrawerLayout.closeDrawer(mDrawerList);
-    	}
-    	
-    	else
-    	{
-    		Log.e("MainActivity", "Error in creating Fragment");
-    	}
-    }
- 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-    	// Inflate the menu; this adds items to the action bar if it is present.
-    	getMenuInflater().inflate(R.menu.main, menu);
+	}
 
-    	MenuInflater inflater = getMenuInflater();
-    	inflater.inflate(R.menu.activity_main, menu);
-    			// Associate searchable configuration with the SearchView
-    	SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-    	SearchView searchView = (SearchView) menu.findItem(R.id.action_search)
-    					.getActionView();
-    	searchView.setSearchableInfo(searchManager
-    			.getSearchableInfo(getComponentName()));
+	private class DrawerClickListener implements ListView.OnItemClickListener {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			displayView(position);
+		}
+	}
 
-    	return super.onCreateOptionsMenu(menu);
-    }
- 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-    	
-         if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-            
-            switch (item.getItemId()) {
-    		case R.id.action_search:
-    			// search action
-    			return true;
-    		case R.id.location_found:
-    			// location found
-    			LocationFound();
-    			return true;
-    		case R.id.action_refresh:
-    			refreshMenuItem = item;
-    			// load the data from server
-    			new SyncData().execute();
-    			return true;
-    		}
-    		return super.onOptionsItemSelected(item);
-        }
-         
-        switch (item.getItemId()) {
-        case R.id.action_settings:
-            return true;
-        default:
-            return super.onOptionsItemSelected(item);
-        }
-    }
-    
-    private void LocationFound() {
+	private void displayView(int position) {
+		Fragment fragment = null;
+		switch (position) {
+		case 0:
+			fragment = new HomeFrag();
+			break;
+		case 1:
+			fragment = new PeopleFrag();
+			break;
+		case 2:
+			fragment = new CommunityFrag();
+			break;
+		case 3:
+			fragment = new PagesFrag();
+			break;
+		}
+
+		if (fragment != null) {
+			FragmentManager fragManager = getFragmentManager();
+			fragManager.beginTransaction()
+					.replace(R.id.frame_container, fragment).commit();
+
+			mDrawerList.setItemChecked(position, true);
+			mDrawerList.setSelection(position);
+			setTitle(navMenuTitles[position]);
+			mDrawerLayout.closeDrawer(mDrawerList);
+		}
+
+		else {
+			Log.e("MainActivity", "Error in creating Fragment");
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.layout.activity_main, menu);
+
+		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+		SearchView searchView = (SearchView) menu.findItem(R.id.action_search)
+				.getActionView();
+		searchView.setSearchableInfo(searchManager
+				.getSearchableInfo(getComponentName()));
+
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		if (mDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+
+			switch (item.getItemId()) {
+			case R.id.action_search:
+				// search action
+				return true;
+			case R.id.location_found:
+				// location found
+				LocationFound();
+				return true;
+			case R.id.action_refresh:
+				refreshMenuItem = item;
+				// load the data from server
+				new SyncData().execute();
+				return true;
+			}
+			return super.onOptionsItemSelected(item);
+		}
+
+		switch (item.getItemId()) {
+		case R.id.action_settings:
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	private void LocationFound() {
 		Intent i = new Intent(MainActivity.this, LocationFound.class);
 		startActivity(i);
 	}
@@ -246,33 +246,33 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		// TODO Auto-generated method stub
 
 	}
- 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-        menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
-        return super.onPrepareOptionsMenu(menu);
-    }
- 
-    @Override
-    public void setTitle(CharSequence title) {
-        mTitle = title;
-        getActionBar().setTitle(mTitle);
-    }
- 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
-    }
- 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
-    }
-    
-    private class SyncData extends AsyncTask<String, Void, String> {
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+		menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
+	public void setTitle(CharSequence title) {
+		mTitle = title;
+		getActionBar().setTitle(mTitle);
+	}
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		mDrawerToggle.syncState();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		mDrawerToggle.onConfigurationChanged(newConfig);
+	}
+
+	private class SyncData extends AsyncTask<String, Void, String> {
 		@Override
 		protected void onPreExecute() {
 			// set the progress bar view
@@ -299,5 +299,5 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			// remove the progress bar view
 			refreshMenuItem.setActionView(null);
 		}
-    };
+	};
 }
